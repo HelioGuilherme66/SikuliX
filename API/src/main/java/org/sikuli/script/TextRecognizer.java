@@ -20,7 +20,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -46,17 +45,6 @@ public class TextRecognizer {
   private OCR.Options options;
 
   //<editor-fold desc="00 instance, reset">
-
-  /**
-   * New TextRecognizer instance using the global options.
-   *
-   * @return instance
-   * @deprecated no longer needed at all
-   */
-  @Deprecated
-  public static TextRecognizer start() {
-    return TextRecognizer.get(OCR.globalOptions());
-  }
 
   /**
    * INTERNAL
@@ -102,7 +90,7 @@ public class TextRecognizer {
       tesseract.setLanguage(options.language());
       tesseract.setDatapath(options.dataPath());
       for (Map.Entry<String, String> entry : options.variables().entrySet()) {
-        tesseract.setTessVariable(entry.getKey(), entry.getValue());
+        tesseract.setVariable(entry.getKey(), entry.getValue());
       }
       if (!options.configs().isEmpty()) {
         tesseract.setConfigs(new ArrayList<>(options.configs()));
@@ -131,162 +119,7 @@ public class TextRecognizer {
     }
   }
 
-  /**
-   * @see OCR#reset()
-   * @deprecated use OCR.reset() instead
-   */
-  @Deprecated
-  public static void reset() {
-    OCR.globalOptions().reset();
-  }
-
-  /**
-   * @see OCR#status()
-   * @deprecated use OCR.status() instead
-   */
-  @Deprecated
-  public static void status() {
-    Debug.logp("Global settings " + OCR.globalOptions().toString());
-  }
-  //</editor-fold>
-
-  //<editor-fold desc="02 set OEM, PSM">
-
-  /**
-   * @param oem
-   * @return instance
-   * @see OCR.Options#oem(OCR.OEM)
-   * @deprecated Use options().oem()
-   */
-  @Deprecated
-  public TextRecognizer setOEM(OCR.OEM oem) {
-    return setOEM(oem.ordinal());
-  }
-
-  /**
-   * @param oem
-   * @return instance
-   * @see OCR.Options#oem(int)
-   * @deprecated use OCR.globalOptions().oem()
-   */
-  @Deprecated
-  public TextRecognizer setOEM(int oem) {
-    options.oem(oem);
-    return this;
-  }
-
-
-  /**
-   * @param psm
-   * @return instance
-   * @see OCR.Options#psm(OCR.PSM)
-   * @deprecated use OCR.globalOptions().psm()
-   */
-  @Deprecated
-  public TextRecognizer setPSM(OCR.PSM psm) {
-    return setPSM(psm.ordinal());
-  }
-
-  /**
-   * @param psm
-   * @return instance
-   * @see OCR.Options#psm(int)
-   * @deprecated use OCR.globalOptions().psm()
-   */
-  @Deprecated
-  public TextRecognizer setPSM(int psm) {
-    options.psm(psm);
-    return this;
-  }
-  //</editor-fold>
-
-  //<editor-fold desc="03 set datapath, language, variable, configs">
-
-  /**
-   * @param dataPath
-   * @return instance
-   * @see OCR.Options#dataPath()
-   * @deprecated use OCR.globalOptions().datapath()
-   */
-  @Deprecated
-  public TextRecognizer setDataPath(String dataPath) {
-    options.dataPath(dataPath);
-    return this;
-  }
-
-  /**
-   * @param language
-   * @return instance
-   * @see OCR.Options#language(String)
-   * @deprecated use OCR.globalOptions().language()
-   */
-  @Deprecated
-  public TextRecognizer setLanguage(String language) {
-    options.language(language);
-    return this;
-  }
-
-  /**
-   * @param key
-   * @param value
-   * @return instance
-   * @see OCR.Options#variable(String, String)
-   * @deprecated use OCR.globalOptions().variable(String key, String value)
-   */
-  @Deprecated
-  public TextRecognizer setVariable(String key, String value) {
-    options.variable(key, value);
-    return this;
-  }
-
-  /**
-   * @param configs
-   * @return instance
-   * @see OCR.Options#configs(String...)
-   * @deprecated Use OCR.globalOptions.configs(String... configs)
-   */
-  @Deprecated
-  public TextRecognizer setConfigs(String... configs) {
-    setConfigs(Arrays.asList(configs));
-    return this;
-  }
-
-  /**
-   * @param configs
-   * @return
-   * @see OCR.Options#configs(List)
-   * @deprecated Use options.configs
-   */
-  @Deprecated
-  public TextRecognizer setConfigs(List<String> configs) {
-    options.configs(configs);
-    return this;
-  }
-  //</editor-fold>
-
   //<editor-fold desc="10 image optimization">
-
-  /**
-   * @param size expected font size in pt
-   * @see OCR.Options#fontSize(int)
-   * @deprecated use OCR.globalOptions().fontSize(int size)
-   */
-  @Deprecated
-  public TextRecognizer setFontSize(int size) {
-    options.fontSize(size);
-    return this;
-  }
-
-  /**
-   * @param height of an uppercase X in px
-   * @see OCR.Options#textHeight(float)
-   * @deprecated use OCR.globalOptions().textHeight(int height)
-   */
-  @Deprecated
-  public TextRecognizer setTextHeight(int height) {
-    options.textHeight(height);
-    return this;
-  }
 
   private BufferedImage optimize(BufferedImage bimg) {
     Mat mimg = Commons.makeMat(bimg);
@@ -397,64 +230,6 @@ public class TextRecognizer {
       lines.add(new Match(realBox, textItem.getConfidence(), textItem.getText().trim()));
     }
     return lines;
-  }
-  //</editor-fold>
-
-  //<editor-fold desc="99 obsolete">
-
-  /**
-   * @return the current screen resolution in dots per inch
-   * @deprecated Will be removed in future versions<br>
-   * use Toolkit.getDefaultToolkit().getScreenResolution()
-   */
-  @Deprecated
-  public int getActualDPI() {
-    return Toolkit.getDefaultToolkit().getScreenResolution();
-  }
-
-  /**
-   * @param simg
-   * @return the text read
-   * @see OCR#readText(Object)
-   * @deprecated use OCR.readText() instead
-   */
-  @Deprecated
-  public String doOCR(ScreenImage simg) {
-    return OCR.readText(simg);
-  }
-
-  /**
-   * @param bimg
-   * @return the text read
-   * @see OCR#readText(Object)
-   * @deprecated use OCR.readText() instead
-   */
-  @Deprecated
-  public String doOCR(BufferedImage bimg) {
-    return OCR.readText(bimg);
-  }
-
-  /**
-   * @param simg
-   * @return text
-   * @see OCR#readText(Object)
-   * @deprecated use OCR.readText() instead
-   */
-  @Deprecated
-  public String recognize(ScreenImage simg) {
-    BufferedImage bimg = simg.getImage();
-    return OCR.readText(bimg);
-  }
-
-  /**
-   * @param bimg
-   * @return text
-   * @see OCR#readText(Object)
-   * @deprecated use OCR.readText() instead
-   */
-  @Deprecated
-  public String recognize(BufferedImage bimg) {
-    return OCR.readText(bimg);
   }
   //</editor-fold>
 
