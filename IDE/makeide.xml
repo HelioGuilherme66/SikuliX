@@ -18,7 +18,7 @@
         <exclude>org.jruby:jruby-complete</exclude>
         <exclude>org.apache.pdfbox:*</exclude>
       </excludes>
-      <unpack>true</unpack>
+      <unpack>false</unpack>
       <unpackOptions>
         <excludes>
           <exclude>**/win32-x86/**</exclude>

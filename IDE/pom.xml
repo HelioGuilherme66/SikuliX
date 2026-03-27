@@ -136,28 +136,22 @@
       <build>
         <plugins>
           <plugin>
-            <artifactId>maven-assembly-plugin</artifactId>
-            <version>3.8.0</version>
-            <configuration>
-              <descriptorRefs>
-                <descriptorRef>jar-with-dependencies</descriptorRef>
-              </descriptorRefs>
-              <archive>
-                <manifest>
-                  <mainClass>org.sikuli.ide.Sikulix</mainClass>
-                </manifest>
-              </archive>
-              <descriptors>
-                <descriptor>makeide.xml</descriptor>
-              </descriptors>
-            </configuration>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.6.2</version>
             <executions>
               <execution>
-                <id>make-assembly</id>
                 <phase>package</phase>
                 <goals>
-                  <goal>single</goal>
+                  <goal>shade</goal>
                 </goals>
+                <configuration>
+                  <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                      <mainClass>org.sikuli.ide.Sikulix</mainClass>
+                    </transformer>
+                  </transformers>
+                </configuration>
               </execution>
             </executions>
           </plugin>
