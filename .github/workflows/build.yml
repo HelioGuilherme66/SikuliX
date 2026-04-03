@@ -9,11 +9,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: 2.0.5-final
-    - name: Set up JDK 17
+        ref: restore_builder
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
     - name: Install API to local repo
       run: mvn -B -pl API install -DskipTests | egrep -v "^\[INFO\].*?Download.*?http"
@@ -34,11 +34,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: 2.0.5-final
-    - name: Set up JDK 17
+        ref: restore_builder
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
     - name: Install API to local repo
       run: mvn -B -pl API install -DskipTests | egrep -v "^\[INFO\].*?Download.*?http"
@@ -59,11 +59,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: 2.0.5-final
-    - name: Set up JDK 17
+        ref: restore_builder
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'temurin'
     - name: Install API to local repo
       run: mvn -B -pl API install -DskipTests | egrep -v "^\[INFO\].*?Download.*?http"
@@ -87,7 +87,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with:
-        ref: 2.0.5-final
+        ref: restore_builder
 
     - name: Get version from POM
       id: version
@@ -121,8 +121,8 @@ jobs:
         if ! gh release view "$TAG" > /dev/null 2>&1; then
           gh release create "$TAG" \
             --title "SikuliX ${{ steps.version.outputs.VERSION }}" \
-            --notes "SikuliX ${{ steps.version.outputs.VERSION }} — built with Java 17, OpenCV 4.5.1. Maintenance transferred to oculix-org." \
-            --target master
+            --notes "SikuliX ${{ steps.version.outputs.VERSION }} — built with Java 21." \
+            --target develop
         fi
 
     - name: Upload assets to release

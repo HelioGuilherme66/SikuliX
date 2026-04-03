@@ -5,7 +5,7 @@
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 http://maven.apache.org/xsd/assembly-2.2.0.xsd">
-  <id>complete-mac</id>
+  <id>complete</id>
   <formats>
     <format>jar</format>
   </formats>
@@ -19,8 +19,8 @@
         <excludes>
           <exclude>**/win32-x86/**</exclude>
           <exclude>**/tessdata/**</exclude>
-          <exclude>/nu/pattern/opencv/linux/**</exclude>
-          <exclude>/nu/pattern/opencv/windows/**</exclude>
+          <exclude>/nu/pattern/opencv/linux/x86_32/**</exclude>
+          <exclude>/nu/pattern/opencv/windows/x86_32/**</exclude>
         </excludes>
       </unpackOptions>
       <excludes>
